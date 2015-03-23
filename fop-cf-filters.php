@@ -174,6 +174,19 @@ class FOP_CF_Filters {
 					'label' =>  esc_html( $label )
 				);
 
+				if ( 'fop_gold' === $this->level ) {
+					$gold_perk = $pods->display( 'gold_bonus' );
+					if ( $gold_perk ) {
+						$label = sprintf(  'GOLD LEVEL PERK! %1s : %2s', $name, $perk );
+						$partners[] = array(
+							'value' => sanitize_title_with_dashes( $name ),
+							'label' =>  esc_html( $label )
+						);
+
+					}
+					
+				}
+
 			}
 
 		}
