@@ -37,11 +37,31 @@ class FOP_CF_Filters {
 	/**
 	 * IDs for the rewards fields
 	 *
+	 * NOTE: The key start as 1, not 0 to aid in calculating number of rewards choosers to show.
+	 *
 	 * @var array
 	 */
 	protected $rewards_field_ids = array(
-		'rewards_1' => 'fld_8434792'
+		1 => 'fld_8434792',
+		2 => 'fld_7584920',
+		3 => 'fld_7399833',
+		4 => 'fld_9824495'
+
 	);
+
+	/**
+	 * The ID of the field in the sign up form for the membership level.
+	 *
+	 * @var string
+	 */
+	protected $level_field_id = 'fld_55107eb1ee8be';
+
+	/**
+	 * The membership level for the current entry.
+	 *
+	 * @var string|void
+	 */
+	protected $level;
 
 	/**
 	 * Constructor for this class.
@@ -52,6 +72,32 @@ class FOP_CF_Filters {
 		}
 
 		add_filter( 'caldera_forms_render_get_field_type-dropdown', array($this, 'dropdown_options' ), 10,2 );
+
+		$this->level = $this->find_level();
+
+	}
+
+
+	/**
+	 * Find level from previous submission.
+	 *
+	 * @return string|void
+	 */
+	protected function find_level() {
+		$var = 'f_entry';
+		if ( isset( $_GET[ $var ] ) ) {
+			$id = strip_tags( $_GET[ $var ] );
+
+			$entry = Caldera_Forms::get_submission_data( $this->join_form_id, $id );
+			if ( is_array( $entry ) && isset( $entry[  $this->level_field_id ] ) ) {
+				$level = $entry[  $this->level_field_id ];
+				return $level;
+
+			}
+
+		}else{
+			//@todo?
+		}
 
 	}
 
@@ -67,8 +113,27 @@ class FOP_CF_Filters {
 	 */
 	public function dropdown_options( $field, $form ) {
 
-		if ( $form[ 'ID' ] !== $this->rewards_form_id && in_array( $field[ 'ID' ], $this->$rewards_field_ids ) ) {
+		if ( $form[ 'ID' ] !== $this->rewards_form_id && ! in_array( $field[ 'ID' ], $this->rewards_field_ids ) ) {
 			return $field;
+
+		}
+
+		if ( 'fop_green' === $this->level ) {
+			return array();
+
+		}
+
+		if( 'fop_bronze' === $this->level || 'fop_silver'  === $this->level  ) {
+			$key = array_search( $field[ 'ID'], $this->rewards_field_ids );
+			if ( 'fop_bronze' === $this->level && $key > 1 ) {
+				return array();
+
+			}
+
+			if ( 'fop_silver' === $this->level && $key > 2 ) {
+				return array();
+
+			}
 
 		}
 
