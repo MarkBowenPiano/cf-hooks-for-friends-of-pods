@@ -73,9 +73,17 @@ class FOP_CF_Filters {
 	protected $hidden_level_field_id = 'fld_55109c8a71d9d';
 
 	/**
+	 * Nonce action name
+	 *
+	 * @var string
+	 */
+	protected $nonce_action = 'fop-cf-rewards-redirect';
+
+	/**
 	 * Constructor for this class.
 	 */
 	public function __construct() {
+
 		//correct form IDs and fields IDs
 		//@see https://github.com/Desertsnowman/Caldera-Forms/issues/89
 		//@see https://github.com/Desertsnowman/Caldera-Forms/issues/90
@@ -94,7 +102,6 @@ class FOP_CF_Filters {
 		}
 
 
-
 		add_filter( 'caldera_forms_render_get_field_type-dropdown', array($this, 'dropdown_options' ), 10,2 );
 
 		$this->level = $this->find_level();
@@ -102,6 +109,8 @@ class FOP_CF_Filters {
 		add_filter( 'caldera_forms_submit_redirect_complete', array( $this, 'correct_redirect' ), 97, 2 );
 
 		add_filter( 'caldera_forms_render_get_field_type-hidden', array( $this, 'hidden_level' ), 10, 2 );
+
+		add_action( 'template_redirect', array( $this, 'reward_nonce' ) );
 
 	}
 
@@ -127,7 +136,7 @@ class FOP_CF_Filters {
 	}
 
 	/**
-	 * Pull cf_id GET var off of URL on redirect, so it doesn't cause CF to load a
+	 * Pull cf_id GET var off of URL on redirect, so it does not cause CF to load same entry and adds a nonce.
 	 *
 	 *
 	 * @uses "caldera_forms_submit_redirect_complete" filter
@@ -143,6 +152,10 @@ class FOP_CF_Filters {
 		}
 
 		$url = str_replace( 'cf_id=', 'e=', $url );
+
+		$nonce = wp_create_nonce( $this->nonce_action );
+
+		$url = add_query_arg( 'nonce', $nonce, $url );
 
 		return $url;
 
@@ -273,6 +286,29 @@ class FOP_CF_Filters {
 		}
 
 		return $perks;
+
+	}
+
+	/**
+	 * On reward chooser, check nonce.
+	 *
+	 * @uses "template_redirect" filter
+	 *
+	 * @param $template
+	 *
+	 * @return string|void
+	 */
+	public function reward_nonce( $template ) {
+		if ( is_page( 'choose-rewards' ) ) {
+			if ( isset( $_GET[ 'nonce' ] ) && wp_verify_nonce( strip_tags( $_GET['nonce' ] ), $this->nonce_action ) ) {
+				return $template;
+			}else{
+				wp_redirect( home_url() );
+			}
+
+		}
+
+		return $template;
 
 	}
 
