@@ -64,6 +64,13 @@ class FOP_CF_Filters {
 	protected $level;
 
 	/**
+	 * ID of hidden field for level in the reward chooser from.
+	 *
+	 * @var string
+	 */
+	protected $hidden_level_field_id = 'fld_4195084';
+
+	/**
 	 * Constructor for this class.
 	 */
 	public function __construct() {
@@ -74,6 +81,53 @@ class FOP_CF_Filters {
 		add_filter( 'caldera_forms_render_get_field_type-dropdown', array($this, 'dropdown_options' ), 10,2 );
 
 		$this->level = $this->find_level();
+
+		add_filter( 'caldera_forms_submit_redirect_complete', array( $this, 'correct_redirect' ), 97, 2 );
+
+		add_filter( 'caldera_forms_render_get_field_type-hidden', array( $this, 'hidden_level' ), 10, 2 );
+
+	}
+
+	/**
+	 * Set level in hidden field
+	 *
+	 * @uses "caldera_forms_render_get_field_type-hidden" filter
+	 *
+	 * @param array $field
+	 * @param array $form
+	 *
+	 * @return array
+	 */
+	public function hidden_level($field, $form  ) {
+		if ( $form[ 'ID' ] !== $this->rewards_form_id ) {
+			return $field;
+		}
+
+		$field[ 'config' ][ 'default' ] = $this->level;
+
+		return $field;
+
+	}
+
+	/**
+	 * Pull cf_id GET var off of URL on redirect, so it doesn't cause CF to load a
+	 *
+	 *
+	 * @uses "caldera_forms_submit_redirect_complete" filter
+	 *
+	 * @param $url
+	 * @param $form
+	 *
+	 * @return mixed
+	 */
+	public function correct_redirect( $url, $form ) {
+		if ( $form[ 'ID' ] !== $this->join_form_id ) {
+			return $url;
+		}
+
+		$url = str_replace( 'cf_id=', 'e=', $url );
+
+		return $url;
 
 	}
 
