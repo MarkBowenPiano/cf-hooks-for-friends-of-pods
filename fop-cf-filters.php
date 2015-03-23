@@ -44,10 +44,10 @@ class FOP_CF_Filters {
 	 * @var array
 	 */
 	protected $rewards_field_ids = array(
-		1 => 'fld_8434792',
-		2 => 'fld_7584920',
-		3 => 'fld_7399833',
-		4 => 'fld_9824495'
+		1 => 'fld_55109c8a71cb2',
+		2 => 'fld_55109c8a71cf0',
+		3 => 'fld_55109c8a71d2a',
+		4 => 'fld_55109c8a71d64'
 
 	);
 
@@ -56,7 +56,7 @@ class FOP_CF_Filters {
 	 *
 	 * @var string
 	 */
-	protected $level_field_id = 'fld_55107eb1ee8be';
+	protected $level_field_id = 'fld_550c691ae5318';
 
 	/**
 	 * The membership level for the current entry.
@@ -70,16 +70,30 @@ class FOP_CF_Filters {
 	 *
 	 * @var string
 	 */
-	protected $hidden_level_field_id = 'fld_4195084';
+	protected $hidden_level_field_id = 'fld_55109c8a71d9d';
 
 	/**
 	 * Constructor for this class.
 	 */
 	public function __construct() {
+		//correct form IDs and fields IDs
+		//@see https://github.com/Desertsnowman/Caldera-Forms/issues/89
+		//@see https://github.com/Desertsnowman/Caldera-Forms/issues/90
 		if ( 'local.wordpress-trunk.dev' === $_SERVER[ 'HTTP_HOST' ] ) {
 			$this->join_form_id = 'CF55107eb1ee6dc';
 			$this->rewards_form_id = 'CF5510805fd1735';
+			$this->level_field_id = 'fld_55107eb1ee8be';
+			$this->rewards_field_ids = array(
+				1 => 'fld_8434792',
+				2 => 'fld_7584920',
+				3 => 'fld_7399833',
+				4 => 'fld_9824495'
+
+			);
+
 		}
+
+
 
 		add_filter( 'caldera_forms_render_get_field_type-dropdown', array($this, 'dropdown_options' ), 10,2 );
 
