@@ -1,6 +1,8 @@
 <?php
 /*
- Plugin Name: Hooks For CF
+ Plugin Name: Friends of Pods Hooks For Caldera Forms
+ Author: Josh Pollock
+ Version: 0.1.0
  */
 /**
  * Customize Caldera Forms For Friends of Pods
