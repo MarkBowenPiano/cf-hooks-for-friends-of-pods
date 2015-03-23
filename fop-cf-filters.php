@@ -137,11 +137,21 @@ class FOP_CF_Filters {
 
 		}
 
-		$field['config']['option'] = array();
+		$field['config']['option'] = array(
+			array(
+				'value' => '',
+				'label' => '-- Choose A Reward --',
+			),
+			array(
+				'value' => 'no-thanks',
+				'label' => 'No Thanks'
+			)
+
+		);
 
 		$perks = $this->find_perks();
 		if ( ! empty( $perks ) && is_array( $perks ) ) {
-			$field['config']['option'] = $perks;
+			$field['config']['option'] = array_merge( $field['config']['option'], $perks );
 		}
 
 		return $field;
