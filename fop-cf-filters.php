@@ -184,7 +184,7 @@ class FOP_CF_Filters {
 	 */
 	public function dropdown_options( $field, $form ) {
 
-		if ( $form[ 'ID' ] !== $this->rewards_form_id && ! in_array( $field[ 'ID' ], $this->rewards_field_ids ) ) {
+		if ( $form[ 'ID' ] !== $this->rewards_form_id || ! in_array( $field[ 'ID' ], $this->rewards_field_ids ) ) {
 			return $field;
 
 		}
