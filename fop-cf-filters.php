@@ -139,9 +139,9 @@ class FOP_CF_Filters {
 
 		$field['config']['option'] = array();
 
-		$partners = $this->find_partners();
-		if ( ! empty( $partners ) && is_array( $partners ) ) {
-			$field['config']['option'] = $partners;
+		$perks = $this->find_perks();
+		if ( ! empty( $perks ) && is_array( $perks ) ) {
+			$field['config']['option'] = $perks;
 		}
 
 		return $field;
@@ -153,7 +153,7 @@ class FOP_CF_Filters {
 	 *
 	 * @return array
 	 */
-	protected function find_partners() {
+	protected function find_perks() {
 		$pods = pods( 'partner', array(
 				'limit' => -1,
 				'cache_mode' => 'cache',
@@ -161,7 +161,7 @@ class FOP_CF_Filters {
 			)
 		);
 
-		$partners = array();
+		$perks = array();
 
 		if ( is_object( $pods ) && 0 < $pods->total() ) {
 			while( $pods->fetch() ) {
@@ -169,7 +169,7 @@ class FOP_CF_Filters {
 				$perk = $pods->display( 'perk' );
 				$label = sprintf(  '%1s : %2s', $name, $perk );
 
-				$partners[] = array(
+				$perks[] = array(
 					'value' => sanitize_title_with_dashes( $name ),
 					'label' =>  esc_html( $label )
 				);
@@ -178,20 +178,20 @@ class FOP_CF_Filters {
 					$gold_perk = $pods->display( 'gold_bonus' );
 					if ( $gold_perk ) {
 						$label = sprintf(  'GOLD LEVEL PERK! %1s : %2s', $name, $perk );
-						$partners[] = array(
+						$perks[] = array(
 							'value' => sanitize_title_with_dashes( $name ),
 							'label' =>  esc_html( $label )
 						);
 
 					}
-					
+
 				}
 
 			}
 
 		}
 
-		return $partners;
+		return $perks;
 
 	}
 
