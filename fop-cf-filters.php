@@ -34,7 +34,7 @@ class FOP_CF_Filters {
 	 *
 	 * @var string
 	 */
-	protected $rewards_form_id = 'CF5510805fd1735';
+	protected $rewards_form_id = 'CF55109c8a71c73';
 
 	/**
 	 * IDs for the rewards fields
@@ -78,6 +78,7 @@ class FOP_CF_Filters {
 	public function __construct() {
 		if ( 'local.wordpress-trunk.dev' === $_SERVER[ 'HTTP_HOST' ] ) {
 			$this->join_form_id = 'CF55107eb1ee6dc';
+			$this->rewards_form_id = 'CF5510805fd1735';
 		}
 
 		add_filter( 'caldera_forms_render_get_field_type-dropdown', array($this, 'dropdown_options' ), 10,2 );
