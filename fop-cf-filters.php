@@ -80,6 +80,13 @@ class FOP_CF_Filters {
 	protected $nonce_action = 'fop-cf-rewards-redirect';
 
 	/**
+	 * ID of email address field in the rewards form
+	 *
+	 * @var string
+	 */
+	protected $email_address_field_id = 'fld_550c691ae53c3';
+
+	/**
 	 * Constructor for this class.
 	 */
 	public function __construct() {
@@ -125,7 +132,7 @@ class FOP_CF_Filters {
 	 * @return array
 	 */
 	public function hidden_level($field, $form  ) {
-		if ( $form[ 'ID' ] !== $this->rewards_form_id ) {
+		if ( $form[ 'ID' ] !== $this->rewards_form_id || $this->hidden_level_field_id !== $field[ 'ID' ] ) {
 			return $field;
 		}
 
@@ -160,7 +167,6 @@ class FOP_CF_Filters {
 		return $url;
 
 	}
-
 
 	/**
 	 * Find level from previous submission.
