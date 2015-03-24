@@ -303,11 +303,12 @@ class FOP_CF_Filters {
 			if ( isset( $_GET[ 'nonce' ] ) && wp_verify_nonce( strip_tags( $_GET['nonce' ] ), $this->nonce_action ) ) {
 				return $template;
 			}else{
+				$thanks = get_permalink( 435 );
 				if ( function_exists( 'pods_redirect' ) ) {
-					pods_redirect( home_url() );
+					pods_redirect( $thanks );
 				}
 
-				wp_redirect( home_url() );
+				wp_redirect( $thanks );
 
 			}
 
