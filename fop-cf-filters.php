@@ -299,7 +299,7 @@ class FOP_CF_Filters {
 	 * @return string|void
 	 */
 	public function reward_nonce( $template ) {
-		if ( is_page( 'choose-rewards' ) ) {
+		if ( is_page( 'select-rewards' ) ) {
 			if ( isset( $_GET[ 'nonce' ] ) && wp_verify_nonce( strip_tags( $_GET['nonce' ] ), $this->nonce_action ) ) {
 				return $template;
 			}else{
