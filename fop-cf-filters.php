@@ -269,22 +269,21 @@ class FOP_CF_Filters {
 				$perk = $pods->display( 'perk' );
 				$label = sprintf(  '%1s : %2s', $name, $perk );
 
-				$perks[] = array(
-					'value' => sanitize_title_with_dashes( $name ),
-					'label' =>  esc_html( $label )
-				);
+				$gold_perk = $pods->display( 'gold_bonus' );
 
-				if ( 'fop_gold' === $this->level ) {
-					$gold_perk = $pods->display( 'gold_bonus' );
-					if ( $gold_perk ) {
-						$label = sprintf(  'GOLD LEVEL PERK! %1s : %2s', $name, $perk );
-						$perks[] = array(
-							'value' => sanitize_title_with_dashes( $name ),
-							'label' =>  esc_html( $label )
-						);
+				if ( ! empty( $perk ) ) {
+					$perks[] = array(
+						'value' => sanitize_title_with_dashes( $name ),
+						'label' =>  esc_html( $label )
+					);
+				}
 
-					}
-
+				if ( 'fop_gold' === $this->level && ! empty( $gold_perk ) ) {
+					$label = sprintf(  'GOLD LEVEL PERK! %1s : %2s', $name, $perk );
+					$perks[] = array(
+						'value' => sanitize_title_with_dashes( $name ),
+						'label' =>  esc_html( $label )
+					);
 				}
 
 			}
