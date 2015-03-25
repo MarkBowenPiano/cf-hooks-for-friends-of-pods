@@ -10,6 +10,7 @@
  */
 
 abstract class FOP_CF_IDs {
+
 	/**
 	 * ID of the become a friend form
 	 *
@@ -66,4 +67,11 @@ abstract class FOP_CF_IDs {
 	 * @var string
 	 */
 	protected $email_address_field_id = 'fld_550c691ae53c3';
+
+	/**
+	 * Name of partners Pod
+	 *
+	 * @var string
+	 */
+	protected $partners_pod_name = 'partner';
 }

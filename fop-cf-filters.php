@@ -202,7 +202,7 @@ class FOP_CF_Filters extends  FOP_CF_IDs {
 	 * @return array
 	 */
 	protected function find_perks() {
-		$pods = pods( 'partner', array(
+		$pods = pods( $this->partners_pod_name , array(
 				'limit' => -1,
 				'cache_mode' => 'cache',
 				'expires' => HOUR_IN_SECONDS
