@@ -136,7 +136,7 @@ class FOP_CF_Reward_Deliver extends FOP_CF_IDs {
 		$message = implode( "/n", $message );
 
 		return $message;
-		
+
 	}
 
 
