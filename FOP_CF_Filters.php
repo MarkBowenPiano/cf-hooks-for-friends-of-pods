@@ -182,6 +182,7 @@ class FOP_CF_Filters extends FOP_CF_IDs {
 			$field['config']['option'] = array_merge( $field['config']['option'], $perks );
 		}
 
+
 		return $field;
 
 	}
@@ -203,15 +204,17 @@ class FOP_CF_Filters extends FOP_CF_IDs {
 
 		if ( is_object( $pods ) && 0 < $pods->total() ) {
 			while( $pods->fetch() ) {
-				$name = $pods->id();
+				$id = $pods->id();
+				$name = $pods->display( 'post_title' );
 				$perk = $pods->display( 'perk' );
 				$label = sprintf(  '%1s : %2s', $name, $perk );
+
 
 				$gold_perk = $pods->display( 'gold_bonus' );
 
 				if ( ! empty( $perk ) ) {
 					$perks[] = array(
-						'value' => sanitize_title_with_dashes( $name ),
+						'value' => sanitize_title_with_dashes( $id ),
 						'label' =>  esc_html( $label )
 					);
 				}
@@ -219,7 +222,7 @@ class FOP_CF_Filters extends FOP_CF_IDs {
 				if ( 'fop_gold' === $this->level && ! empty( $gold_perk ) ) {
 					$label = sprintf(  'GOLD LEVEL PERK! %1s : %2s', $name, $perk );
 					$perks[] = array(
-						'value' => sanitize_title_with_dashes( $name . '_gold' ),
+						'value' => sanitize_title_with_dashes( $id . '_gold' ),
 						'label' =>  esc_html( $label )
 					);
 				}
@@ -227,6 +230,7 @@ class FOP_CF_Filters extends FOP_CF_IDs {
 			}
 
 		}
+
 
 		return $perks;
 
