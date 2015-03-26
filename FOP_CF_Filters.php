@@ -141,6 +141,7 @@ class FOP_CF_Filters extends FOP_CF_IDs {
 	public function dropdown_options( $field, $form ) {
 
 		if ( $form[ 'ID' ] !== $this->rewards_form_id || ! in_array( $field[ 'ID' ], $this->rewards_field_ids ) ) {
+
 			return $field;
 
 		}
@@ -202,7 +203,7 @@ class FOP_CF_Filters extends FOP_CF_IDs {
 
 		if ( is_object( $pods ) && 0 < $pods->total() ) {
 			while( $pods->fetch() ) {
-				$name = $pods->display( 'post_title' );
+				$name = $pods->id();
 				$perk = $pods->display( 'perk' );
 				$label = sprintf(  '%1s : %2s', $name, $perk );
 
@@ -218,7 +219,7 @@ class FOP_CF_Filters extends FOP_CF_IDs {
 				if ( 'fop_gold' === $this->level && ! empty( $gold_perk ) ) {
 					$label = sprintf(  'GOLD LEVEL PERK! %1s : %2s', $name, $perk );
 					$perks[] = array(
-						'value' => sanitize_title_with_dashes( $name ),
+						'value' => sanitize_title_with_dashes( $name . '_gold' ),
 						'label' =>  esc_html( $label )
 					);
 				}
