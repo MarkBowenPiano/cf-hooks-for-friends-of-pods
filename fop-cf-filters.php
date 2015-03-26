@@ -15,12 +15,13 @@
  */
 
 add_action( 'plugins_loaded', function() {
+
 	if ( defined( 'PODS_VERSION' ) ) {
 		include_once( dirname( __FILE__ ) . '/FOP_CF_IDs.php' );
 		include_once( dirname( __FILE__ ) . '/FOP_CF_Filters.php' );
 		include_once( dirname( __FILE__ ) . '/FOP_CF_Reward_Deliver.php' );
-	}
-	if ( defined( 'PODS_VERSION' ) ) {
 		new FOP_CF_Filters();
 	}
+
+
 }, 1 );
