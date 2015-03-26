@@ -49,15 +49,12 @@ class FOP_CF_Reward_Deliver extends FOP_CF_IDs {
 
 		$message = $this->make_message( $codes );
 
-		//@todo set that GET var!
 		return wp_mail( pods_v_sanatized( 'email' ), 'Your Friends of Pods Rewards', $message  );
 
 	}
 
 	/**
 	 * Get code from partner ID
-	 *
-	 * @todo Deal with fact that reward ID isn't partner ID!
 	 *
 	 * @param string $partner_id Partner ID, with "_gold" prefixed if it gold level reward.
 	 *
@@ -120,7 +117,6 @@ class FOP_CF_Reward_Deliver extends FOP_CF_IDs {
 
 		}
 
-		//@todo set that GET var!
 		$message[] = sprintf( '%1s - ', pods_v_sanatized( 'name' ) );
 		$message[] = 'Thank you so much for your support!';
 		if ( is_array( $code_message ) ) {
