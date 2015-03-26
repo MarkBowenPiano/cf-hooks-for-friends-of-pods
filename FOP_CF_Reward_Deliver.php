@@ -58,7 +58,7 @@ class FOP_CF_Reward_Deliver extends FOP_CF_IDs {
 	 *
 	 * @param string $partner_id Partner ID, with "_gold" prefixed if it gold level reward.
 	 *
-	 * @return mixed
+	 * @return array with keys label and code
 	 */
 	protected function get_reward_as_string( $partner_id ) {
 		$gold = false;
@@ -68,13 +68,19 @@ class FOP_CF_Reward_Deliver extends FOP_CF_IDs {
 		}
 
 		$pods = $this->get_partner( $partner_id );
+		$label = $pods->display( 'post_title' );
 		if ( $gold ) {
+			$label .= ' ' . $pods->display( 'gold_bonus' );
 			$code = $pods->display( 'gold_perk' );
 		}else{
+			$label .= ' ' . $pods->display( 'perk' );
 			$code = $pods->display( 'regular_perk' );
 		}
 
-		return $code;
+		return array(
+			'code'  => $code,
+			'label' => $label
+		);
 	}
 
 	/**
@@ -106,12 +112,13 @@ class FOP_CF_Reward_Deliver extends FOP_CF_IDs {
 		$code_message = false;
 		if ( is_array( $codes ) ) {
 			$code_message[] = '<ul>';
-			foreach ( $codes as $label => $code ) {
+			foreach ( $codes as $code ) {
+				$label = pods_v( 'label', $code, '' );
+				$code = pods_v( 'code', $code, '' );
 				if ( filter_var( $code, FILTER_VALIDATE_URL ) ) {
 					$code = sprintf( '<a href="%1s">Click here to claim reward</a>', esc_url( $code ) );
 				}
 
-				//@todo label?
 				$code_message[] = sprintf( '<li>%1s : %2s</li>', $label, $code );
 			}
 
